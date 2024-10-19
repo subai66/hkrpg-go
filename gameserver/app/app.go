@@ -67,7 +67,7 @@ func Run(done chan os.Signal, cfg *gameserver.Config, appid string) error {
 		return fmt.Errorf("message queue nil")
 	}
 	defer messageQueue.Close()
-	// new conf
+	// new conf  初始化游戏数据配置
 	gdconf.InitGameDataConfig(cfg.GameDataConfigPath)
 	// new game
 	g := service.NewGameServer(discoveryClient, messageQueue, appInfo, alg.GetAppIdUint32(appid))

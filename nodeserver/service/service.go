@@ -76,8 +76,11 @@ func NewNodeService(s *NodeDiscoveryService) {
 		}
 		s.regionMap[regionConf.Name] = info
 	}
+	//go s.keepAliveRegions()
 	go s.messageQueue()
 }
+
+
 
 func (s *NodeDiscoveryService) GetRegionMap() map[string]*RegionInfo {
 	if s.regionMap == nil {
@@ -348,10 +351,12 @@ func (s *NodeDiscoveryService) GetRegionKey(ctx context.Context, req *nodeapi.Ge
 // 下线通知
 func (s *NodeDiscoveryService) PlayerLogout(ctx context.Context, req *nodeapi.PlayerLogoutReq) (*nodeapi.PlayerLogoutRsp, error) {
 	rsp := &nodeapi.PlayerLogoutRsp{}
+	// 获取指定区服的服务
 	service := s.GetService(req.RegionName, nodeapi.ServerType_SERVICE_GATE, req.GateAppId)
 	if service == nil {
 		rsp.RetCode = nodeapi.Retcode_RET_GateNil
 	} else {
+		// 发送下线请求到网关
 		s.MessageQueue.SendToGate(req.GateAppId, &mq.NetMsg{
 			MsgType: mq.ServerMsg,
 			Uid:     req.Uid,
@@ -365,4 +370,9 @@ func (s *NodeDiscoveryService) PlayerLogout(ctx context.Context, req *nodeapi.Pl
 	}
 
 	return rsp, nil
+}
+
+func (s *NodeDiscoveryService) updatePlayerData(uid uint64, regionName string) error {
+	// TODO 通知game更新玩家数据
+	return nil
 }

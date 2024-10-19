@@ -57,6 +57,7 @@ func (g *GameServer) Close() {
 	var num int
 	allP := g.getAllPlayerNet()
 	for _, p := range allP {
+		
 		g.delPlayerNet(p.uid)
 		num++
 	}
@@ -81,6 +82,7 @@ func (g *GameServer) keepaliveServer() {
 			})
 			if err != nil {
 				logger.Error("keepalive error: %v", err)
+				continue   //选择循环，等待下次心跳
 			}
 			if rsp.RetCode == nodeapi.Retcode_RET_Reconnect {
 				// TODO 代表是重连

@@ -166,12 +166,15 @@ func jumpMission(g *GamePlayer, parameter []string) string {
 // 清空背包
 func (g *GamePlayer) DelItem(payloadMsg pb.Message) {
 	db := g.GetPd().GetItem()
+	
 	db = &spb.Item{
 		RelicMap:     make(map[uint32]*spb.Relic),
 		EquipmentMap: make(map[uint32]*spb.Equipment),
 		MaterialMap:  make(map[uint32]uint32),
 		HeadIcon:     make([]uint32, 0),
 	}
+
+	//添加材料项
 	db.MaterialMap[11] = 240
 }
 

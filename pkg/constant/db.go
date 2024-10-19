@@ -17,6 +17,9 @@ type Account struct {
 const (
 	MailAvatar   = 1 // 角色
 	MailMaterial = 2 // 材料
+	MailCurrency   = 3 // 游戏货币
+	MailItemUpgrade = 4 // 道具升级
+	MailSpecialEvent = 5 // 特殊活动奖励
 )
 
 // 全服邮件
